@@ -1,6 +1,6 @@
-#name:一机一档查错
-#verison:1.0
-#author:lzy
+# name:一机一档查错
+# verison:1.0
+# author:lzy
 
 import xlrd
 import xlwt
@@ -8,7 +8,7 @@ import os
 from collections import Counter
 
 
-#获取所有表格
+# 获取所有表格
 def getfile(pth):
     excel = os.walk(pth)
     file_lst = []
@@ -19,32 +19,22 @@ def getfile(pth):
     return file_lst
 
 
-#读取表格信息，每行输出为字典
+# 读取表格信息，每行输出为字典
 def read_date(excel_pth):
-    wb = xlrd.open_workbook(filename= excel_pth)
+    wb = xlrd.open_workbook(filename=excel_pth)
     sheet = wb.sheet_by_index(0)
 
-    #读取表格表头
-    title = sheet.row(0)                        #读取第一行
+    # 读取表格表头
+    title = sheet.row(0)  # 读取第一行
 
     lst = []
-    for i in range(1,sheet.nrows):
-        row = sheet.row(i)                      #第i行数据
+    for i in range(1, sheet.nrows):
+        row = sheet.row(i)  # 第i行数据
         all_date = {}
         for j in range(len(title)):
             all_date[title[j].value] = row[j].value
         lst.append(all_date)
     return lst
-
-#读取任意列的数据
-
-def cols_data(index):
-    for i in ql_date:
-        key = list(ql_date[0].keys
-    
-
-
-
 
 
 path = 'E:\测试'
@@ -55,29 +45,20 @@ ql_date = []
 for excel_path in all_file:
     date = read_date(excel_path)
     ql_date = ql_date + date
+#print(ql_date)
 
 
+# 读取任意列的数据
+def cols_data(index):
+    init_key = list(ql_date[0].keys())
+    key = init_key[index]
+    col_lst = []
+    for i in ql_date:
+        value = i[key]
+        col_lst.append(value)
+    return col_lst
 
+col_data = cols_data(2)
+print(col_data)
+#print(key,type(key),len(key))
 
-'''
-#提取表格任意列
-#def colum(key):
-for i in lst:
-    print(i,type(i))
-
-
-
-
-    key = title[0].value
-    dic = i[key]
-    print(dic)
-'''
-
-
-#去重模块
-
-
-
-#b = dict(Counter(col_date))
-#print ([key for key,value in b.items()if value > 1])  #只展示重复元素
-#print ({key:value for key,value in b.items()if value > 1})  #展现重复元素和重复次数
