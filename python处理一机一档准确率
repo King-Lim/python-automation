@@ -49,7 +49,7 @@ for excel_path in all_file:
 
 
 # 读取任意列的数据
-def cols_data(index):
+def cols_date(index):
     init_key = list(ql_date[0].keys())
     key = init_key[index]
     col_lst = []
@@ -58,7 +58,13 @@ def cols_data(index):
         col_lst.append(value)
     return col_lst
 
-col_data = cols_data(2)
-print(col_data)
-#print(key,type(key),len(key))
+#查重序列
+ch_lst = [1,2,[15,16],35]
+col_date = cols_date(20)
+print(col_date)
 
+
+b = dict(Counter(col_date))
+print ([key for key,value in b.items()if value > 1])  #只展示重复元素
+print ({key:value for key,value in b.items()if value > 1})  #展现重复元素和重复次数
+#print(key,type(key),len(key))
