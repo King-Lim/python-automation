@@ -1,0 +1,72 @@
+import xlrd
+import xlwt
+import os
+
+#获取所有表格
+def getfile(pth):
+    excel = os.walk(pth)
+    file_lst = []
+    for path, dir_list, file_list in excel:
+        for file_name in file_list:
+            file = os.path.join(path, file_name)
+            file_lst.append(file)
+    return file_lst
+
+
+#读取学生信息
+def read_date(excel_pth):
+    wb = xlrd.open_workbook(filename= excel_pth)
+    student_sheet = wb.sheet_by_index(3)
+
+    #读取学生信息表表头
+    title = student_sheet.row(2)                        #读取第三行
+
+    lst = []
+    for i in range(3,student_sheet.nrows):
+        row = student_sheet.row(i)                      #第i行数据
+        all_date = {}
+        for j in range(len(title)):
+            all_date[title[j].value] = row[j].value
+        lst.append(all_date)
+    return lst
+
+path = 'E:\安伟'
+all_file = getfile(path)
+#print(all_file)
+
+ql = []
+for excel_path in all_file:
+    date = read_date(excel_path)
+    ql = ql + date
+print(ql)
+
+
+
+new_title = tuple(ql[0].keys())         #读取表头（第二行开始，第0列至第7列，共七列数据）
+print(new_title)
+print(len(new_title))
+print(new_title[0])
+
+
+#写数据
+#新建excel工作表
+new_wb = xlwt.Workbook()
+#新建工作簿
+sheet = new_wb.add_sheet('students')
+#写入表头
+for i in range(len(new_title)):
+    sheet.write(0,i,new_title[i])
+
+new_title_rows = 1
+for i in range(len(ql)):
+    dic = ql[i]
+    sheet.write(new_title_rows + i,0,dic['学校全称'])
+    sheet.write(new_title_rows + i,1,dic['年级'])
+    sheet.write(new_title_rows + i,2,dic['考生姓名'])
+    sheet.write(new_title_rows + i,3,dic['准考证号9位'])
+    sheet.write(new_title_rows + i,4,dic['所在班级'])
+    sheet.write(new_title_rows + i,5,dic['考场号'])
+    sheet.write(new_title_rows + i,6,dic['座位号'])
+
+
+new_wb.save('学生信息汇总表.xlsx')
