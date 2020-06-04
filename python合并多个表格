@@ -42,7 +42,7 @@ print(ql)
 
 
 
-new_title = tuple(ql[0].keys())         #读取表头（第二行开始，第0列至第7列，共七列数据）
+new_title = tuple(ql[0].keys())         #读取表头（提取索引为0的字典子项，读取子项字典中所有的key）
 print(new_title)
 print(len(new_title))
 print(new_title[0])
